@@ -75,68 +75,6 @@ public class GridManager : MonoBehaviour
         GameTile.Selected = gameTile;
       }
 
-
-
-      // if (GameTile.Selected == gameTile.gameObject)
-      // {
-      //   GameItemSelector.Selected = null;//Unselect the tile and move on
-      // }
-      // else
-      // {
-      //   GameItemSelector.Selected = gameTile.gameObject;
-      // }
-
-
-      // if (gameTile.gameUnit != null)
-      // {
-      //   print($"Clicked unit: {gameTile.gameUnit.name} at {gridPosition}");
-      //   if (GameUnit.Selected != null)
-      //   {
-      //     GameUnit.Selected = null;
-      //     GameTile.Selected = gameTile;
-      //     return;
-      //   }
-      //   else
-      //   {
-      //     GameUnit.Selected = gameTile.gameUnit;
-      //     GameTile.Selected = null;
-      //     return;
-      //   }
-      // }
-      // else
-      // {
-      //   Debug.Log($"GridManager: {gameTile.name} at {gameTile.worldPosition}");
-      //   GameTile.Selected = GameTile.Selected == gameTile ? null : gameTile;
-      // }
-
-
-
-      // if (GameTile.Selected == gameTile)
-      // {
-      //   //gameTile.Selected = false;
-      //   GameTile.Selected = null;
-      //   _selector.gameObject.SetActive(false);
-      //   //Deselected the tile, is there a unit to select now?
-      //   if (gameTile.gameUnit != null)
-      //   {
-      //     Debug.Log($"GridManager: {gameTile.gameUnit.name} at {gameTile.gameUnit.position}");
-      //     gameTile.gameUnit.Selected = true;
-      //     return;//So not overiden by gametile selected
-      //   }
-      // }
-      // else
-      // {
-      //   if (gameTile.gameUnit != null)
-      //   {
-      //     Debug.Log($"GridManager: {gameTile.gameUnit.name} at {gameTile.gameUnit.position}");
-      //     gameTile.gameUnit.Selected = false;
-      //   }
-      //   //gameTile.Selected = true;
-      //   GameTile.Selected = gameTile;
-      //   _selector.position = gameTile.worldPosition;
-      //   _selector.gameObject.SetActive(true);
-      // }
-      // OnGameTileSelected?.Invoke(gameTile, GameTile.Selected == gameTile);
     }
   }
 

@@ -21,19 +21,13 @@ public class UIMoveVisuals : MonoBehaviour
 
   private void OnEnable()
   {
-    //GameUnit.OnGameUnitSelected += HandleGameUnitSelected;
     GameItemSelector.OnGameItemSelected += HandleGameItemSelected;
   }
 
   private void OnDisable()
   {
-    //GameUnit.OnGameUnitSelected -= HandleGameUnitSelected;
     GameItemSelector.OnGameItemSelected -= HandleGameItemSelected;
   }
-
-
-
-
 
   private void HandleGameItemSelected(GameObject gameItem)
   {

@@ -22,7 +22,6 @@ public class UISelected : MonoBehaviour
 
   private void OnEnable()
   {
-    //GameUnit.OnGameUnitSelected += HandleGameUnitSelected;
     GameTile.OnGameTileSelected += HandleGameTileSelected;
     GameItemSelector.OnGameItemSelected += HandleGameItemSelected;
     GameItemSelector.OnGameItemUnSelected += HandleGameItemUnSelected;
@@ -30,7 +29,6 @@ public class UISelected : MonoBehaviour
 
   private void OnDisable()
   {
-    //GameUnit.OnGameUnitSelected -= HandleGameUnitSelected;
     GameTile.OnGameTileSelected -= HandleGameTileSelected;
     GameItemSelector.OnGameItemSelected -= HandleGameItemSelected;
     GameItemSelector.OnGameItemUnSelected -= HandleGameItemUnSelected;
@@ -39,7 +37,6 @@ public class UISelected : MonoBehaviour
 
   private void HandleGameItemUnSelected(GameObject gameItemSelector)
   {
-    //Debug.Log($"UISelected: {gameItemSelector.name} unselected");
     _panel.SetActive(false);
     _selector.SetActive(false);
   }
@@ -63,7 +60,6 @@ public class UISelected : MonoBehaviour
 
   private void HandleGameTileSelected(GameTile gameTile)
   {
-    //    Debug.Log($"UISelected: {gameTile.name} at {gameTile.position} selected: {selected}");
     if (gameTile == null)
     {
       _panel.SetActive(false);
@@ -77,27 +73,5 @@ public class UISelected : MonoBehaviour
     _textName.text = gameTile.name;
     _textDescription.text = $"This is a {gameTile.name}. At position {gameTile.position}";
   }
-
-  private void HandleGameUnitSelected(GameUnit gameUnit)
-  {
-    if (gameUnit == null)
-    {
-      _panel.SetActive(false);
-      return;
-    }
-    _panel.SetActive(true);
-    _image.sprite = Resources.Load<Sprite>($"Sprites/{gameUnit.name}");
-    _textName.text = gameUnit.name;
-    _textDescription.text = $"This is a {gameUnit.name}. At position {gameUnit.position}";
-  }
-
-
-
-  // private void HandleGameTileClicked(GameTile gameTile)
-  // {
-  //   _image.sprite = Resources.Load<Sprite>($"Sprites/{gameTile.name}");
-  //   _textName.text = gameTile.name;
-  //   _textDescription.text = $"This is a {gameTile.name}. At position {gameTile.position}, world position {gameTile.worldPosition}";
-  // }
 
 }

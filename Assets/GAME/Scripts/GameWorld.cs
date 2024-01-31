@@ -7,11 +7,8 @@ using System;
 public class GameWorld //Hold the current state of the game world
 {
   public static Dictionary<Vector2Int, GameTile> Tiles { get { return _tiles; } }
-  //public static Dictionary<Vector2Int, GameUnit> Units { get { return _units; } }
 
   private static Dictionary<Vector2Int, GameTile> _tiles;
-  //private static Dictionary<Vector2Int, GameUnit> _units;
-
 
 
   public static void UpdateGameWorldFromTilemaps(Tilemap[] tilemaps)
@@ -98,13 +95,6 @@ public class GameWorld //Hold the current state of the game world
       }
     }
     return neighbors.ToArray();
-  }
-
-  public static void RemoveFogOfWar(Vector2Int position)
-  {
-    //_tiles[position] = null;
-    GameTile gameTile = _tiles[position];
-    Debug.Log($"RemoveFogOfWar: {position} {gameTile.name}");
   }
 
 }

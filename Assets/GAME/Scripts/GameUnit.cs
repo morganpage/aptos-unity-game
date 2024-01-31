@@ -36,35 +36,6 @@ public class GameUnit : MonoBehaviour
     OnGameUnitMoved?.Invoke(this);
   }
 
-  void OnEnable()
-  {
-    GameItemSelector.OnGameItemSelected += HandleGameItemSelected;
-    GameItemSelector.OnGameItemUnSelected += HandleGameItemUnSelected;
-  }
-
-  void OnDisable()
-  {
-    GameItemSelector.OnGameItemSelected -= HandleGameItemSelected;
-    GameItemSelector.OnGameItemUnSelected -= HandleGameItemUnSelected;
-  }
-
-  private void HandleGameItemSelected(GameObject gameItemSelector)
-  {
-    if (gameItemSelector == this.gameObject)
-    {
-      this.gameObject.GetComponent<IOutline>().Outline = true;
-    }
-  }
-
-  private void HandleGameItemUnSelected(GameObject gameItemSelector)
-  {
-    if (gameItemSelector == this.gameObject)
-    {
-      this.gameObject.GetComponent<IOutline>().Outline = false;
-    }
-  }
-
-
 
   public void MoveTo(GameTile gameTile)
   {
