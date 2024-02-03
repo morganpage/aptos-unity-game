@@ -13,7 +13,7 @@ public class GameTile
   public Vector3 worldPosition;
   public GameUnit gameUnit;
   public GameCity gameCity;
-
+  public GameGatherable gameGatherable;
   public bool FogOfWar = true;
   public static GameTile _selected;
 

@@ -32,10 +32,12 @@ public class GridManager : MonoBehaviour
         Debug.Log($"GridManager: {gameTile.name} at {gameTile.worldPosition} is fog of war");
         return;
       }
-
-
       bool moved = MoveIfSelected(gameTile);
       if (moved) return;
+      //Gather any resources on this tile
+      bool gathered = Gather(gameTile);
+      if (gathered) return;
+
 
       if (gameTile.gameCity != null) //First try and select a city on this tile
       {
@@ -74,7 +76,6 @@ public class GridManager : MonoBehaviour
       {
         GameTile.Selected = gameTile;
       }
-
     }
   }
 
@@ -96,5 +97,19 @@ public class GridManager : MonoBehaviour
     return true;
   }
 
+  private bool Gather(GameTile gameTile)
+  {
+    GameGatherable gameGatherable = gameTile.gameGatherable;
+    if (gameGatherable == null) return false;
+    if (gameGatherable.Gatherable)
+    {
+      if (gameGatherable.Gather())
+      {
+        gameTile.gameGatherable = null;
+        return true;
+      }
+    }
+    return false;
+  }
 
 }

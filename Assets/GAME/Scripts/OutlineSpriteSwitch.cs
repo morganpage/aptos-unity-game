@@ -20,7 +20,7 @@ public class OutlineSpriteSwitch : MonoBehaviour, IOutline
   void Awake()
   {
     _spriteRenderer = GetComponent<SpriteRenderer>();
-    Outline = false;
+    Outline = _outline;
   }
 
   [ContextMenu("Toggle Outline")]

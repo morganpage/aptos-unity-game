@@ -6,8 +6,21 @@ using System;
 
 public class GameWorld //Hold the current state of the game world
 {
-  public static Dictionary<Vector2Int, GameTile> Tiles { get { return _tiles; } }
+  public static Action<int> OnInfleunceChanged;
+  public static int _influence;
 
+  public static int Influence
+  {
+    get => _influence;
+    set
+    {
+      _influence = value;
+      OnInfleunceChanged?.Invoke(_influence);
+    }
+  }
+
+
+  public static Dictionary<Vector2Int, GameTile> Tiles { get { return _tiles; } }
   private static Dictionary<Vector2Int, GameTile> _tiles;
 
 
@@ -43,9 +56,18 @@ public class GameWorld //Hold the current state of the game world
     foreach (GameCity gameCity in gameCities)
     {
       Vector3Int gridPosition = tilemaps[0].WorldToCell(gameCity.transform.position);
-      gameCity.position = new Vector2Int(gridPosition.x, gridPosition.y);
+      gameCity.Position = new Vector2Int(gridPosition.x, gridPosition.y);
       GameTile gameTile = _tiles[new Vector2Int(gridPosition.x, gridPosition.y)];
       gameTile.gameCity = gameCity;
+    }
+    //Add all GameGatherables to the correct GameTile
+    GameGatherable[] gameGatherables = GameObject.FindObjectsOfType<GameGatherable>();
+    foreach (GameGatherable gameGatherable in gameGatherables)
+    {
+      Vector3Int gridPosition = tilemaps[0].WorldToCell(gameGatherable.transform.position);
+      gameGatherable.position = new Vector2Int(gridPosition.x, gridPosition.y);
+      GameTile gameTile = _tiles[new Vector2Int(gridPosition.x, gridPosition.y)];
+      gameTile.gameGatherable = gameGatherable;
     }
   }
 
