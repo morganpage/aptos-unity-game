@@ -41,8 +41,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Cutoff: 0.54
-    - _Offset: 1.18
+    - _Cutoff: 0.09
+    - _Offset: 1.04
     m_Colors:
     - _OutlineColor: {r: 2, g: 2, b: 2, a: 1}
   m_BuildTextureStacks: []

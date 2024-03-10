@@ -17,7 +17,7 @@ public class TurnManager : MonoBehaviour
     _tweener.OnTweenComplete -= OnTweenComplete;
   }
 
-  void OnTweenComplete()
+  void OnTweenComplete(bool final)
   {
     GameWorld.Influence++;
   }

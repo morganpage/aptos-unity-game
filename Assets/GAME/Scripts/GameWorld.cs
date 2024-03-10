@@ -6,7 +6,7 @@ using System;
 
 public class GameWorld //Hold the current state of the game world
 {
-  public static Action<int> OnInfleunceChanged;
+  public static Action<int> OnInfluenceChanged;
   public static int _influence;
 
   public static int Influence
@@ -15,13 +15,29 @@ public class GameWorld //Hold the current state of the game world
     set
     {
       _influence = value;
-      OnInfleunceChanged?.Invoke(_influence);
+      OnInfluenceChanged?.Invoke(_influence);
     }
   }
 
 
   public static Dictionary<Vector2Int, GameTile> Tiles { get { return _tiles; } }
   private static Dictionary<Vector2Int, GameTile> _tiles;
+
+  public static void Save()
+  {
+    GameData gameData = new GameData();//Create a new GameData object and pulls in the current state of the game world
+    Serializer.Save("gameWorld.dat", gameData);
+  }
+
+  public static void Load()
+  {
+    GameData gameData = Serializer.Load("gameWorld.dat");
+    if (gameData != null)
+    {
+      Debug.Log("GameWorld.Load: " + gameData.Influence);
+      Influence = gameData.Influence;
+    }
+  }
 
 
   public static void UpdateGameWorldFromTilemaps(Tilemap[] tilemaps)

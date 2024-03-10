@@ -5,7 +5,7 @@ using System;
 
 public class Tweener : MonoBehaviour
 {
-  public Action OnTweenComplete;
+  public Action<bool> OnTweenComplete;
   [SerializeField] private Transform start;
   [SerializeField] private Transform end;
   [SerializeField] private GameObject objectToTween;
@@ -42,7 +42,7 @@ public class Tweener : MonoBehaviour
     {
       _times--;
       Reset();
-      OnTweenComplete?.Invoke();
+      OnTweenComplete?.Invoke(_times == 0);
       if (_times == 0)
       {
         objectToTween.SetActive(false);

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class TestManager : MonoBehaviour
 {
-  [SerializeField] private GameObject _tutorialPanel;
+  [SerializeField] private UIGameInfo _uiGameInfo;
   void Start()
   {
     Debug.Log("TestManager Start");
 #if UNITY_EDITOR
     Debug.Log("UNITY_EDITOR");
-    _tutorialPanel.SetActive(true);
+    _uiGameInfo.Show(true);
 #endif
   }
 

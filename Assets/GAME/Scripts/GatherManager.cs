@@ -9,18 +9,26 @@ public class GatherManager : MonoBehaviour
 
   void OnEnable()
   {
+    _tweener.OnTweenComplete += AddPopulationOnGatherComplete;
     GameGatherable.OnGameGatherableGathered += OnGameGatherableGathered;
   }
 
   void OnDisable()
   {
     GameGatherable.OnGameGatherableGathered -= OnGameGatherableGathered;
+    _tweener.OnTweenComplete -= AddPopulationOnGatherComplete;
   }
 
   void OnGameGatherableGathered(GameGatherable gameGatherable)
   {
-    GameWorld.Influence--;
     _tweener.StartTween(2);
-    _gameCity.AddPopulation();
+    //_gameCity.AddPopulation();
   }
+
+  void AddPopulationOnGatherComplete(bool final)
+  {
+    GameWorld.Influence--;
+    if (final) _gameCity.AddPopulation();
+  }
+
 }

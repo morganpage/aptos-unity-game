@@ -5,7 +5,9 @@ using Aptos.HdWallet;
 using NBitcoin;
 using Aptos.Unity.Rest;
 using Aptos.Unity.Rest.Model;
-
+using Chaos.NaCl;
+using System;
+using System.Text;
 
 /// <summary>
 /// The main entry point into the Aptos blockchain.
@@ -36,7 +38,9 @@ public class AptosManager : MonoBehaviour
   {
     var account = _wallet.GetAccount(0);
     var addr = account.AccountAddress.ToString();
+    var privateKey = account.PrivateKey.ToString();
     Debug.Log("GetCurrentWalletAddress: " + addr);
+    Debug.Log("GetCurrentWalletAddress: " + privateKey);
     return addr;
   }
 
@@ -114,6 +118,85 @@ public class AptosManager : MonoBehaviour
         , faucetEndpoint));
 
   }
+
+  [ContextMenu("GetAccountResource")]
+  public void GetAccountResource()
+  {
+    // AccountResourceCoin.Coin coin = new AccountResourceCoin.Coin();
+    // ResponseInfo responseInfo = new ResponseInfo();
+    var accountAddress = _wallet.GetAccount(0).AccountAddress;
+
+    StartCoroutine(RestClient.Instance.GetAccountResourceCollection1((_resource, _responseInfo) =>
+    {
+      Debug.Log("GetAccountResource: " + _resource);
+      string game_state = (string)_resource["data"]["game_state"];
+      Debug.Log("GetAccountResource: " + game_state);
+    }, accountAddress, "0x838f1262430bf8ae4f5c7b388d1f17968f603a87960181d4386ba48ce67a2e32::game_state::UserData"));
+
+  }
+
+  public void SendDataToBlockchain(string jsonData)
+  {
+    var transferPayload = new TransactionPayload()
+    {
+      Type = Constants.ENTRY_FUNCTION_PAYLOAD,
+      Function = "0x838f1262430bf8ae4f5c7b388d1f17968f603a87960181d4386ba48ce67a2e32::game_state::set_game_state",
+      TypeArguments = new string[] { },
+      Arguments = new Arguments()
+      {
+        ArgumentStrings = new string[] { ToHexString(jsonData) }
+      }
+    };
+    StartCoroutine(RestClient.Instance.SubmitTransaction((_submitTxn, _responseInfo) =>
+    {
+      Debug.Log("SubmitTransaction: " + _submitTxn + " " + _responseInfo);
+    }, _wallet.GetAccount(0), transferPayload));
+  }
+
+
+
+
+  [ContextMenu("SubmitTransaction")]
+  public void SubmitTransaction()
+  {
+    var transferPayload = new TransactionPayload()
+    {
+      Type = Constants.ENTRY_FUNCTION_PAYLOAD,
+      Function = "0x838f1262430bf8ae4f5c7b388d1f17968f603a87960181d4386ba48ce67a2e32::game_state::set_game_state",
+      TypeArguments = new string[] { },
+      Arguments = new Arguments()
+      {
+        ArgumentStrings = new string[] { ToHexString("test") }
+      }
+    };
+
+    StartCoroutine(RestClient.Instance.SubmitTransaction((_submitTxn, _responseInfo) =>
+      {
+        Debug.Log("SubmitTransaction: " + _submitTxn + " " + _responseInfo);
+        //submitTxn = _submitTxn;
+        //responseInfo = _responseInfo;
+      }, _wallet.GetAccount(0), transferPayload));
+
+
+    // StartCoroutine(RestClient.Instance.CreateBCSSignedTransaction((_signedTransaction) =>
+    // {
+    //   signedTransaction = _signedTransaction;
+    // }, Alice, new BCS.TransactionPayload(payload)));
+
+
+
+
+  }
+
+  private string ToHexString(string inputString)
+  {
+    //string helloWorld = "Hello World";
+    byte[] bytes = Encoding.Default.GetBytes(inputString);
+    string hexString = BitConverter.ToString(bytes);
+    hexString = hexString.Replace("-", "");
+    return "0x" + hexString;
+  }
+
 
 
 }

@@ -9,12 +9,12 @@ public class UIInfluence : MonoBehaviour
 
   void OnEnable()
   {
-    GameWorld.OnInfleunceChanged += OnInfluenceChanged;
+    GameWorld.OnInfluenceChanged += OnInfluenceChanged;
   }
 
   void OnDisable()
   {
-    GameWorld.OnInfleunceChanged -= OnInfluenceChanged;
+    GameWorld.OnInfluenceChanged -= OnInfluenceChanged;
   }
 
   void OnInfluenceChanged(int influence)

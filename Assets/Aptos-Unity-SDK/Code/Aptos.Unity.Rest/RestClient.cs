@@ -3,6 +3,7 @@ using Aptos.Unity.Rest.Model;
 using Chaos.NaCl;
 using NBitcoin;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Text;
@@ -227,6 +228,8 @@ namespace Aptos.Unity.Rest
     /// An object representing a collection resource - null if the request fails, and a response object contains the response details.</returns>
     public IEnumerator GetAccountResourceCollection(Action<ResourceCollection, ResponseInfo> callback, Accounts.AccountAddress accountAddress, string resourceType)
     {
+      Debug.Log("GetAccountResourceCollection: " + accountAddress.ToString());
+
       string accountsURL = Endpoint + "/accounts/" + accountAddress.ToString() + "/resource/" + resourceType;
       Uri accountsURI = new Uri(accountsURL);
 
@@ -236,7 +239,7 @@ namespace Aptos.Unity.Rest
       {
         yield return null;
       }
-
+      Debug.Log("GetAccountResourceCollection: " + request.downloadHandler.text);
       ResponseInfo responseInfo = new ResponseInfo();
       responseInfo.message = "Error when getting account resource. ";
 
@@ -623,6 +626,7 @@ namespace Aptos.Unity.Rest
     /// </returns>
     public IEnumerator SubmitTransaction(Action<Transaction, ResponseInfo> callback, Account sender, TransactionPayload payload)
     {
+      Debug.Log("SubmitTransaction: " + sender.AccountAddress.ToString());
       ///////////////////////////////////////////////////////////////////////
       // 1) Generate a transaction request
       ///////////////////////////////////////////////////////////////////////
@@ -639,6 +643,7 @@ namespace Aptos.Unity.Rest
       {
         callback(null, responseInfo);
       }
+      Debug.Log("Sequence Number: " + sequenceNumber);
 
       var expirationTimestamp = (DateTime.Now.ToUnixTimestamp() + Constants.EXPIRATION_TTL).ToString();
 
@@ -664,6 +669,8 @@ namespace Aptos.Unity.Rest
         encodedSubmission = _encodedSubmission;
       }, txnRequestJson));
       yield return cor_encodedSubmission;
+
+      Debug.Log("Encoded Submission: " + encodedSubmission);
 
       byte[] toSign = StringToByteArray(encodedSubmission.Trim('"')[2..]);
 
@@ -1946,5 +1953,54 @@ namespace Aptos.Unity.Rest
       return sb.ToString();
     }
     #endregion
+
+
+    public IEnumerator GetAccountResourceCollection1(Action<JObject, ResponseInfo> callback, Accounts.AccountAddress accountAddress, string resourceType)
+    {
+      Debug.Log("GetAccountResourceCollection: " + accountAddress.ToString());
+
+      string accountsURL = Endpoint + "/accounts/" + accountAddress.ToString() + "/resource/" + resourceType;
+      Uri accountsURI = new Uri(accountsURL);
+
+      UnityWebRequest request = UnityWebRequest.Get(accountsURI);
+      request.SendWebRequest();
+      while (!request.isDone)
+      {
+        yield return null;
+      }
+      Debug.Log("GetAccountResourceCollection: " + request.downloadHandler.text);
+      ResponseInfo responseInfo = new ResponseInfo();
+      responseInfo.message = "Error when getting account resource. ";
+
+      if (request.result == UnityWebRequest.Result.ConnectionError)
+      {
+        responseInfo.status = ResponseInfo.Status.Failed;
+        responseInfo.message += request.error;
+        callback(null, responseInfo);
+      }
+
+      if (request.responseCode >= 400)
+      {
+        responseInfo.status = ResponseInfo.Status.Failed;
+        responseInfo.message += "Account respurce not found. " + request.error;
+        callback(null, responseInfo);
+        yield break;
+      }
+      else
+      {
+        JObject acctResource = JsonConvert.DeserializeObject<JObject>(request.downloadHandler.text);
+
+        // ResourceCollection acctResource = JsonConvert.DeserializeObject<ResourceCollection>(request.downloadHandler.text);
+        responseInfo.status = ResponseInfo.Status.Success;
+        responseInfo.message = request.downloadHandler.text;
+        callback(acctResource, responseInfo);
+      }
+
+      request.Dispose();
+      yield return null;
+    }
+
+
+
   }
 }
