@@ -37,7 +37,7 @@ public class TutorialManager : MonoBehaviour
   void StartTutorial()
   {
     Debug.Log("StartTutorial");
-    _turnManager.EndTurn();
+    _turnManager.StartGame();
     _uiGameInfo.Show(false);
   }
 

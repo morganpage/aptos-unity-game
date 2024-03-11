@@ -49,10 +49,11 @@ public class UISelected : MonoBehaviour
       _selector.SetActive(false);
       return;
     }
+    Debug.Log("HandleGameItemSelected: " + gameItemSelector.name);
     _panel.SetActive(true);
     _selector.SetActive(gameItemSelector.GetComponent<GameUnit>() == null);//Dont show select on GameUnits
     _selector.transform.position = gameItemSelector.transform.position;
-    _image.sprite = Resources.Load<Sprite>($"Sprites/{gameItemSelector.name}");
+    _image.sprite = Resources.Load<Sprite>($"Sprites/UI/{gameItemSelector.name}");
     _textName.text = gameItemSelector.name;
     _textDescription.text = $"This is a {gameItemSelector.name}. At position {gameItemSelector.transform.position}";
   }
@@ -66,12 +67,13 @@ public class UISelected : MonoBehaviour
       _selector.SetActive(false);
       return;
     }
+    Debug.Log("HandleGameTileSelected: " + gameTile.name);
     _panel.SetActive(true);
     _selector.SetActive(true);
     _selector.transform.position = gameTile.worldPosition;
     _image.sprite = Resources.Load<Sprite>($"Sprites/{gameTile.name}");
     _textName.text = gameTile.name;
-    _textDescription.text = $"This is a {gameTile.name}. At position {gameTile.position}";
+    _textDescription.text = $"This is a {gameTile.name}. At position {gameTile.Position}";
   }
 
 }

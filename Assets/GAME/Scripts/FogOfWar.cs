@@ -23,7 +23,7 @@ public class FogOfWar : MonoBehaviour
 
   private void HandleGameUnitMoved(GameUnit gameUnit)
   {
-    UpdateFogOfWar(gameUnit.position);
+    UpdateFogOfWar(gameUnit.Position);
 
     // Debug.Log($"FogOfWar: {gameUnit.name} at {gameUnit.position}");
     // Vector3Int tilePosition = new Vector3Int(gameUnit.position.x, gameUnit.position.y, 0);

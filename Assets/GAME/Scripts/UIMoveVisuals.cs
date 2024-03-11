@@ -41,7 +41,7 @@ public class UIMoveVisuals : MonoBehaviour
       }
       return;
     }
-    var ValidMoveGameTiles = GameWorld.ValidMoves(gameUnit.position);
+    var ValidMoveGameTiles = GameWorld.ValidMoves(gameUnit.Position);
     int i = 0;
     foreach (var tile in ValidMoveGameTiles)
     {

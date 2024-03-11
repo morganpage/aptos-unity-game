@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UIGameInfo : MonoBehaviour
 {
+  [SerializeField] private Image _image;
   [SerializeField] private TextMeshProUGUI _textTitle;
   [SerializeField] private TextMeshProUGUI _textDescription;
   [SerializeField] private GameObject _panel;
@@ -16,10 +17,11 @@ public class UIGameInfo : MonoBehaviour
     ClearChoices();
   }
 
-  public void SetInfo(string title, string description)
+  public void SetInfo(string title, string description, string spriteName = "UI/Rogue")
   {
     _textTitle.text = title;
     _textDescription.text = description;
+    _image.sprite = Resources.Load<Sprite>($"Sprites/{spriteName}");
   }
 
   public void Show(bool show)

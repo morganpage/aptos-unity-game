@@ -21,7 +21,7 @@ public class GatherManager : MonoBehaviour
 
   void OnGameGatherableGathered(GameGatherable gameGatherable)
   {
-    _tweener.StartTween(2);
+    _tweener.StartTween(3);
     //_gameCity.AddPopulation();
   }
 

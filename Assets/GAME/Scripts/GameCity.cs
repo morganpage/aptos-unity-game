@@ -14,6 +14,7 @@ public class GameCity : MonoBehaviour
     set
     {
       _level = value;
+      gameObject.name = _level == 1 ? "Village" : "Town";
       OnGameCityLevelUpdated?.Invoke(this);
     }
   }
@@ -60,6 +61,7 @@ public class GameCity : MonoBehaviour
     get => _selected;
     set
     {
+      Debug.Log("GameCity.Selected: " + value);
       _selected = value;
       OnGameCitySelected?.Invoke(_selected);
     }

@@ -9,7 +9,7 @@ public class GameTile
   public static Action<GameTile> OnGameTileSelected;
   public string name;
   public int movementCost = 1;
-  public Vector2Int position;
+  public Vector2Int _position;
   public Vector3 worldPosition;
   public GameUnit gameUnit;
   public GameCity gameCity;
@@ -26,4 +26,16 @@ public class GameTile
       OnGameTileSelected?.Invoke(_selected);
     }
   }
+
+  public Vector2Int Position
+  {
+    get => _position;
+    set
+    {
+      _position = value;
+    }
+  }
+
+
+
 }

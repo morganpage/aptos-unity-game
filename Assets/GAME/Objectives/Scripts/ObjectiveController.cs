@@ -7,8 +7,6 @@ public class ObjectiveController : MonoBehaviour
   [SerializeField] private GameObject _uiObjectivePrefab;
   [SerializeField] private Transform _uiObjectiveParent;
 
-  //private List<UIObjective> _uiObjectives = new List<UIObjective>();
-
   void Awake()
   {
     foreach (Transform child in _uiObjectiveParent)
@@ -20,11 +18,13 @@ public class ObjectiveController : MonoBehaviour
   void OnEnable()
   {
     GameGatherable.OnGameGatherableGathered += OnGameGatherableGathered;
+    GameUnit.OnGameUnitTrained += OnGameUnitTrained;
   }
 
   void OnDisable()
   {
     GameGatherable.OnGameGatherableGathered -= OnGameGatherableGathered;
+    GameUnit.OnGameUnitTrained -= OnGameUnitTrained;
   }
 
   void OnGameGatherableGathered(GameGatherable gatherable)
@@ -38,8 +38,21 @@ public class ObjectiveController : MonoBehaviour
         uiObjective.Progress++;
       }
     }
+    RefreshArrows();
+  }
 
-
+  void OnGameUnitTrained(GameUnit gatherable)
+  {
+    Debug.Log("OnGameUnitTrained: " + gatherable.name);
+    UIObjective[] uiObjectives = FindObjectsOfType<UIObjective>();
+    foreach (UIObjective uiObjective in uiObjectives)
+    {
+      if (uiObjective.Name == gatherable.name)
+      {
+        uiObjective.Progress++;
+      }
+    }
+    RefreshArrows();
   }
 
 
@@ -52,6 +65,21 @@ public class ObjectiveController : MonoBehaviour
       UIObjective uiObjectiveComponent = uiObjective.GetComponent<UIObjective>();
       uiObjectiveComponent.SetObjective(objective);
       //_uiObjectives.Add(uiObjectiveComponent);
+    }
+    RefreshArrows();
+  }
+
+  void RefreshArrows()
+  {
+    foreach (Transform child in _uiObjectiveParent)
+    {
+      UIObjective uiObjective = child.GetComponent<UIObjective>();
+      if (uiObjective == null) continue;
+      if (uiObjective.Progress < uiObjective.MaxProgress)
+      {
+        uiObjective.SetArrow(true);
+        return;
+      }
     }
   }
 

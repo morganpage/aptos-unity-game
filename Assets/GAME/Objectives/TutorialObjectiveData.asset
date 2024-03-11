@@ -17,7 +17,7 @@ MonoBehaviour:
     type: 0
     name: Fruit
     maxProgress: 2
-  - description: Train Warrior
+  - description: Train a Rogue
     type: 1
-    name: Warrior
+    name: Rogue
     maxProgress: 1

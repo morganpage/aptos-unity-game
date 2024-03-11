@@ -25,6 +25,7 @@ public class GridManager : MonoBehaviour
       Vector3 worldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
       Vector3Int gridPosition = _tilemaps[0].WorldToCell(worldPosition);
       GameTile gameTile = GameWorld.Tiles[new Vector2Int(gridPosition.x, gridPosition.y)];
+      //GameCity.Selected = null;
       if (gameTile == null) return;
       print($"Clicked tile: {gameTile.name} at {gridPosition}");
       if (gameTile.FogOfWar)
@@ -41,14 +42,19 @@ public class GridManager : MonoBehaviour
 
       if (gameTile.gameCity != null) //First try and select a city on this tile
       {
-        if (GameItemSelector.Selected == gameTile.gameCity.gameObject)
+        Debug.Log($"GridManager: {gameTile.name} at {gameTile.worldPosition} has a city");
+        if (GameCity.Selected == gameTile.gameCity)
         {
+          Debug.Log($"GridManager: {gameTile.name} at {gameTile.worldPosition} is already selected");
           GameItemSelector.Selected = null;//Unselect the city and move on
+          GameCity.Selected = null;
         }
         else
         {
+          Debug.Log($"GridManager: {gameTile.name} at {gameTile.worldPosition} is now selected");
           GameTile.Selected = null;
           GameItemSelector.Selected = gameTile.gameCity.gameObject;
+          GameCity.Selected = gameTile.gameCity;
           return;
         }
       }
